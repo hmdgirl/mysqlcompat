@@ -1,3 +1,5 @@
+-- BOOLEAN TO BIT
+
 -- TIME TO INTEGER
 CREATE OR REPLACE FUNCTION _time_to_integer(time with time zone)
 RETURNS integer AS $$
