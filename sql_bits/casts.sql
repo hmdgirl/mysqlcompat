@@ -1,4 +1,22 @@
 -- BOOLEAN TO BIT
+CREATE OR REPLACE FUNCTION _boolean_to_bit(BOOLEAN)
+RETURNS bit AS $$
+  SELECT
+    case $1 when true then 1::bit
+    else 0::bit end 
+$$ IMMUTABLE STRICT LANGUAGE SQL;
+
+CREATE CAST (BOOLEAN AS bit)
+  WITH FUNCTION _boolean_to_bit(BOOLEAN)
+  AS IMPLICIT;
+
+-- INT4 TO BIT(cast from type integer to type bit already exists)
+  -- select castsource::regtype,casttarget::regtype,castcontext,castfunc from pg_cast where castsource='integer'::regtype and casttarget='bit'::regtype;
+update pg_cast set castcontext='i' where castsource ='integer'::regtype and casttarget='bit'::regtype;
+
+-- BIT TO INT4(cast from type bit to type integer already exists)
+  -- select castsource::regtype,casttarget::regtype,castcontext,castfunc from pg_cast where castsource='bit'::regtype and casttarget='integer'::regtype;
+update pg_cast set castcontext='i' where castsource ='bit'::regtype and casttarget='integer'::regtype;
 
 -- TIME TO INTEGER
 CREATE OR REPLACE FUNCTION _time_to_integer(time with time zone)
